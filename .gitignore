@@ -1,0 +1,33 @@
+# Binaries
+**/bin/
+bin-int/
+游戏测试素材/
+需要的东西/
+小笔记/
+Intermediates/
+
+# Hazel files
+*.log
+*.ini
+提交到GitHub.bat
+
+# Visual Studio files and folder
+.vs/
+**.sln
+**.vcxproj
+**.vcxproj.filters
+**.vcxproj.user
+**.csproj
+遇到过的问题.docx
+
+# vulkan
+*.exe
+bfg.jar
+
+# Directories
+# GameEngineLightWeight/vendor/VulkanSDK
+GameEngine-Editor/assets/cache
+scripts/GameEngineLightWeight/vendor/VulkanSDK
+scripts/__pycache__
+scripts/.idea
+
