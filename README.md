@@ -1,2 +1,2 @@
 # LearnOpenGLProject
-学习LearnOpenGL项目网站
+学习LearnOpenGL网站的项目记录
