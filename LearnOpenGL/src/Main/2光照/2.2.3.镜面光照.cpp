@@ -79,7 +79,7 @@ int main()
     // ------------------------------------
     //Shader lightingShader("1.colors.vs", "1.colors.fs");
     // 物体的光照shader
-    Shader lightingShader("assest/shader/2光照/2.1.2.镜面光照.vs", "assest/shader/2光照/2.1.2.镜面光照.fs");
+    Shader lightingShader("assest/shader/2光照/2.2.3.镜面光照.vs", "assest/shader/2光照/2.2.3.镜面光照.fs");
     //Shader lightCubeShader("1.light_cube.vs", "1.light_cube.fs");
     // 光源shader
     Shader lightCubeShader("assest/shader/2光照/2.1.2.light_cube.vs", "assest/shader/2光照/2.1.2.light_cube.fs");
