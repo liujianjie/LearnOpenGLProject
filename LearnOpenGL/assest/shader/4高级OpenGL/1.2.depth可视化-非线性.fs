@@ -3,8 +3,6 @@ out vec4 FragColor;
 
 in vec2 TexCoords;// ÎÆÀí×ø±ê
 
-uniform vec3 viewPos;
-
 uniform sampler2D texture1;
 
 void main(){ 
