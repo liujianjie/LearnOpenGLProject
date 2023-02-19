@@ -77,7 +77,7 @@ int main()
     glDepthFunc(GL_LESS); // always pass the depth test (same effect as glDisable(GL_DEPTH_TEST))
     // 要启用模板测试
     glEnable(GL_STENCIL_TEST);
-    //glStencilFunc(GL_NOTEQUAL, 1, 0xFF); // 这可以去除。意思是匹配缓冲区的模板值
+    glStencilFunc(GL_NOTEQUAL, 1, 0xFF); // 这可以去除。意思是匹配缓冲区的模板值
     glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);// 当模板值测试成功如何更新模板缓冲
 
     // build and compile shaders
@@ -242,7 +242,7 @@ int main()
         // 3.再次绘制物体，但只在它们片段的模板值不等于1时才绘制。
         glStencilFunc(GL_NOTEQUAL, 1, 0xFF); // 为了不覆盖正常大小的物体
         // 4.禁用模板写入以及深度测试。
-        //glStencilMask(0x00);      // 这好像没用，若启用，绘制轮廓模板测试成功也只是将轮廓所占的模板缓冲值设置为1！
+        //glStencilMask(0x00);      // 这好像没用，若启用，绘制轮廓模板测试成功也只是将轮廓所占的模板缓冲值设置为1！后面没有其它需要绘制的物体了
         glDisable(GL_DEPTH_TEST);// 为避免被地板覆盖轮廓，使后绘制的轮廓始终在前面
 
         // 5.将每个物体放大一点点。

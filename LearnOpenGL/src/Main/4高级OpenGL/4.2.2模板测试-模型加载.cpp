@@ -176,10 +176,10 @@ int main()
         glStencilMask(0x00);      // 这好像没用，若启用，绘制轮廓模板测试成功也只是将轮廓所占的模板缓冲值设置为1！
         glDisable(GL_DEPTH_TEST);// 为避免被地板覆盖轮廓，使后绘制的轮廓始终在前面
 
-         // 5.将每个物体放大一点点。
+         // 5.将每个物体放大一点点。不用再这放大，在顶点着色器里放大
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(0.101f, 0.101f, 0.101f));
+        model = glm::scale(model, glm::vec3(0.100f, 0.100f, 0.100f));
 
         // 6.使用一个不同的片段着色器，输出一个单独的（边框）颜色。
         colorShader.use();
