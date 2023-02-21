@@ -161,7 +161,6 @@ int main()
         ourShader.setMat4("view", view);
         ourShader.setMat4("projection", projection);
 
-
         // 2.渲染正常大小的物体
         // 渲染这个模型
         glm::mat4 model = glm::mat4(1.0f);
