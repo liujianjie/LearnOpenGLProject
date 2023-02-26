@@ -39,7 +39,6 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_SAMPLES, 4);
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
@@ -72,7 +71,6 @@ int main()
     // configure global opengl state
     // -----------------------------
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_MULTISAMPLE);
 
     // build and compile our shader zprogram
     // ------------------------------------
@@ -147,21 +145,21 @@ int main()
     // 1.3将此多重采样颜色缓冲附加到当前绑定的帧缓冲中
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, textureColorBufferMultiSampled, 0);;
     
+    // 这里好像是错误的，渲染缓冲对象等同于纹理缓冲
     // 1.4创建一个多重采样渲染缓冲对象,以便能进行深度（模板）测试
-    unsigned int rbo;
-    glGenRenderbuffers(1, &rbo);
-    glBindRenderbuffer(GL_RENDERBUFFER, rbo);
-    glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH24_STENCIL8, SCR_WIDTH, SCR_HEIGHT);
-    glBindRenderbuffer(GL_RENDERBUFFER, 0);
-    // 1.5将此多重采样渲染缓冲附加到当前绑定的帧缓冲中
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT,GL_RENDERBUFFER, rbo);
+    //unsigned int rbo;
+    //glGenRenderbuffers(1, &rbo);
+    //glBindRenderbuffer(GL_RENDERBUFFER, rbo);
+    //glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH24_STENCIL8, SCR_WIDTH, SCR_HEIGHT);
+    //glBindRenderbuffer(GL_RENDERBUFFER, 0);
+    //// 1.5将此多重采样渲染缓冲附加到当前绑定的帧缓冲中
+    //glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT,GL_RENDERBUFFER, rbo);
 
-    // 1.6检查是否附加成功
-    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-        std::cout << "错误：帧缓冲不完整" << std::endl;
-    }
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);// 解绑
-
+    //// 1.6检查是否附加成功
+    //if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+    //    std::cout << "错误：帧缓冲不完整" << std::endl;
+    //}
+    //glBindFramebuffer(GL_FRAMEBUFFER, 0);// 解绑
 
     // render loop
     // -----------
@@ -183,8 +181,6 @@ int main()
         shader.use();
         shader.setMat4("projection", projection);
         shader.setMat4("view", view);
-
-        // world transformation
         glm::mat4 model = glm::mat4(1.0f);
         shader.setMat4("model", model);
 
@@ -196,6 +192,10 @@ int main()
 
         glBindVertexArray(cubeVAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        //model = glm::translate(model, glm::vec3(0.25f, 0, -0.25f));
+        //shader.setMat4("model", model);
+        //glDrawArrays(GL_TRIANGLES, 0, 36);
 
         // 2.将自定义帧缓冲多重采样颜色缓冲的图像传给复制给默认的帧缓冲
         glBindFramebuffer(GL_READ_FRAMEBUFFER, framebuffer);// 源帧缓冲
