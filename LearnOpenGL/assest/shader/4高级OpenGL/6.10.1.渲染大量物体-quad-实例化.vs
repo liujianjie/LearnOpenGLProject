@@ -8,7 +8,7 @@ uniform vec2 offsets[100];
 
 void main()
 {
-	// gl_InstanceID当前绘制实例的下标
+	// gl_InstanceID当前绘制实例的ID
 	vec2 offset = offsets[gl_InstanceID];
 	gl_Position = vec4(aPos + offset, 0.0, 1.0);
 	fColor = aColor;

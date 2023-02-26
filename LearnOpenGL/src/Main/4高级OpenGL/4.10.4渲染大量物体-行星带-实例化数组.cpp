@@ -120,7 +120,7 @@ int main()
         // 4. 添加到矩阵的数组中
         modelMatrices[i] = model;
     }
-    // 设置给rock的model
+    // 设置给rock的model，实例化数组当做顶点属性，需要指定顶点属性布局
     unsigned int buffer;
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);

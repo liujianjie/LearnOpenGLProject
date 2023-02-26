@@ -77,7 +77,7 @@ int main()
 
     // build and compile shaders
     // -------------------------
-    Shader shader("assest/shader/4高级OpenGL/6.10.2.渲染大量物体-quad-实例化.vs", "assest/shader/4高级OpenGL/6.10.2.渲染大量物体-quad-实例化.fs");
+    Shader shader("assest/shader/4高级OpenGL/6.10.2.渲染大量物体-quad-实例化数组.vs", "assest/shader/4高级OpenGL/6.10.2.渲染大量物体-quad-实例化数组.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -94,7 +94,7 @@ int main()
             translations[index++] = translation;
         }
     }
-    // 用顶点数组缓冲存储
+    // 用顶点缓冲对象存储
     unsigned int instanceVBO;
     glGenBuffers(1, &instanceVBO);
     glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
@@ -129,7 +129,7 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    // 设置layout=2布局的属性是，每2个实例更新一次属性
+    // 设置layout=2布局的属性是，每1个实例更新一次属性
     glVertexAttribDivisor(2, 1); 
 
     // 解绑

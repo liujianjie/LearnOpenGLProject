@@ -3,7 +3,7 @@
 #include <stb_image.h>
 
 //#include <learnopengl/shader_s.h>
-#include "Shader/Shader.h"
+#include "Core/Shader/Shader.h"
 
 #include <filesystem>
 #include <string>
@@ -51,7 +51,7 @@ int main()
 
     // build and compile our shader zprogram
     // ------------------------------------
-    Shader ourShader("assest/shader/4.2.texture.vs", "assest/shader/4.2.texture.fs");
+    Shader ourShader("assest/shader/1入门/4.2.texture.vs", "assest/shader/1入门/4.2.texture.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -151,8 +151,6 @@ int main()
     glUniform1i(glGetUniformLocation(ourShader.ID, "texture1"), 0);
     // or set it via the texture class
     ourShader.setInt("texture2", 1);
-
-
 
     // render loop
     // -----------
