@@ -9,7 +9,7 @@
 
 
 //#include <learnopengl/shader_s.h>
-#include "Shader/Shader.h"
+#include "Core/Shader/Shader.h"
 
 #include <iostream>
 #include "MyFileSystem.h"
@@ -60,7 +60,7 @@ int main()
     // build and compile our shader zprogram
     // ------------------------------------
     //Shader ourShader("6.2.coordinate_systems.vs", "6.2.coordinate_systems.fs");
-    Shader ourShader("assest/shader/1.8.transform.vs", "assest/shader/1.8.transform.fs");
+    Shader ourShader("assest/shader/1入门/1.8.transform.vs", "assest/shader/1入门/1.8.transform.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -194,8 +194,6 @@ int main()
     ourShader.setInt("texture2", 1);
 
 
-
-
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
@@ -223,7 +221,6 @@ int main()
 
         glm::mat4 view = glm::mat4(1.0f);
         glm::mat4 projection = glm::mat4(1.0f);
-        //model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
 
         view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
         projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
