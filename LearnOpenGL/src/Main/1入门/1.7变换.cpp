@@ -2,8 +2,9 @@
 #include <GLFW/glfw3.h>
 #include <stb_image.h>
 
-//#include <learnopengl/shader_s.h>
-#include "Shader/Shader.h"
+#include "Core/Shader/Shader.h"
+#include "Core/Camera/Camera.h"
+#include <iostream>
 
 #include <filesystem>
 #include <string>
@@ -55,7 +56,7 @@ int main()
 
     // build and compile our shader zprogram
     // ------------------------------------
-    Shader ourShader("assest/shader/1.7.texture.vs", "assest/shader/1.7.texture.fs");
+    Shader ourShader("assest/shader/1入门/1.7.texture.vs", "assest/shader/1入门/1.7.texture.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -156,8 +157,6 @@ int main()
     // or set it via the texture class
     ourShader.setInt("texture2", 1);
 
-
-
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
@@ -184,6 +183,7 @@ int main()
         glm::mat4 trans = glm::mat4(1.0f);
         trans = glm::translate(trans, glm::vec3(0.5, -0.5, 0.0));
         trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
+        trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
         unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
         glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 

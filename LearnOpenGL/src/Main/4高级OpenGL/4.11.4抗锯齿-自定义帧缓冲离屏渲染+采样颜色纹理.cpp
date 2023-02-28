@@ -245,9 +245,10 @@ int main()
 
         // 3.初始化，绑定回临时缓冲
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // 线框是黑色的，窗口为白色的才看得见
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // 为了线框渲染时能看见：线框是黑色的，窗口为白色的才看得见
         glClear(GL_COLOR_BUFFER_BIT);
-        glDisable(GL_DEPTH_TEST); // 禁用深度测试，这样屏幕空间四边形不会因深度测试而被丢弃。
+        // 要禁用深度测试，这样屏幕空间四边形不会因深度测试而被丢弃。疑问点：即时设置了quad的z为什么还是会被丢弃
+        glDisable(GL_DEPTH_TEST);
 
         // 4.绘制quad，将临时帧缓冲的颜色缓冲当做纹理给着色器采样
         screenShader.use();
