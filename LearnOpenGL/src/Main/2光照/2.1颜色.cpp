@@ -5,8 +5,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-//#include <learnopengl/camera.h>
-//#include <learnopengl/shader_s.h>
 #include "Core/Shader/Shader.h"
 #include "Core/Camera/Camera.h"
 #include <iostream>
@@ -77,10 +75,8 @@ int main()
 
     // build and compile our shader zprogram
     // ------------------------------------
-    //Shader lightingShader("1.colors.vs", "1.colors.fs");
     // 物体的光照shader
     Shader lightingShader("assest/shader/2光照/2.1.1.color.vs", "assest/shader/2光照/2.1.1.color.fs");
-    //Shader lightCubeShader("1.light_cube.vs", "1.light_cube.fs");
     // 光源shader
     Shader lightCubeShader("assest/shader/2光照/2.1.2.light_cube.vs", "assest/shader/2光照/2.1.2.light_cube.fs");
 
@@ -129,28 +125,24 @@ int main()
         -0.5f,  0.5f,  0.5f,
         -0.5f,  0.5f, -0.5f,
     };
-    // first, configure the cube's VAO (and VBO)
     unsigned int VBO, cubeVAO;
     glGenVertexArrays(1, &cubeVAO);
     glGenBuffers(1, &VBO);
-
+    // 1. 绑定顶点数组对象
+    glBindVertexArray(cubeVAO);
+    // 2. 把我们的CPU的顶点数据复制到GPU顶点缓冲中，供OpenGL使用
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    glBindVertexArray(cubeVAO);
-
-    // position attribute
+    // 3. 设定顶点属性指针，来解释顶点缓冲中的顶点属性布局
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    // second, configure the light's VAO (VBO stays the same; the vertices are the same for the light object which is also a 3D cube)
+    // 重新创建一个顶点数组，同样指向这个顶点缓冲对象VBO
     unsigned int lightCubeVAO;
     glGenVertexArrays(1, &lightCubeVAO);
     glBindVertexArray(lightCubeVAO);
-
-    // we only need to bind to the VBO (to link it with glVertexAttribPointer), no need to fill it; the VBO's data already contains all we need (it's already bound, but we do it again for educational purposes)
+    // 重复利用顶点缓冲对象
     glBindBuffer(GL_ARRAY_BUFFER, VBO);// 绑定的是vbo
-
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
@@ -179,22 +171,26 @@ int main()
         lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
         lightingShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
 
-        // view/projection transformations
+        // 绑定着色器
+        lightingShader.use();
+        lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
+        lightingShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+
+        // 观察/投影变换
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
         glm::mat4 view = camera.GetViewMatrix();
         lightingShader.setMat4("projection", projection);
         lightingShader.setMat4("view", view);
 
-        // world transformation
+        // 世界变换
         glm::mat4 model = glm::mat4(1.0f);
         lightingShader.setMat4("model", model);
 
-        // render the cube
+        // 渲染这个cube
         glBindVertexArray(cubeVAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
-
-        // also draw the lamp object
+        // 同样渲染白色的cube当做太阳
         lightCubeShader.use();
         lightCubeShader.setMat4("projection", projection);
         lightCubeShader.setMat4("view", view);

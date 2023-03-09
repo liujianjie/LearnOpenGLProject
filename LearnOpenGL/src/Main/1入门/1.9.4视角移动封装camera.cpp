@@ -79,7 +79,7 @@ int main()
     // build and compile our shader zprogram
     // ------------------------------------
     //Shader ourShader("7.4.camera.vs", "7.4.camera.fs");
-    Shader ourShader("assest/shader/1.9.camera.vs", "assest/shader/1.9.camera.fs");
+    Shader ourShader("assest/shader/1入门/1.9.camera.vs", "assest/shader/1入门/1.9.camera.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------

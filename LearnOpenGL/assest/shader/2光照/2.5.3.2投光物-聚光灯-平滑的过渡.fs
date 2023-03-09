@@ -1,74 +1,75 @@
-#version 330 core
+ï»¿#version 330 core
 out vec4 FragColor;
 struct Material {
-    sampler2D diffuse;// ÎÆÀíµ¥Ôª
-    sampler2D specular;//  ¾µÃæ·´Éä¹âÓÃ²ÄÖÊÑÕÉ«×÷Îª·´ÉäÇ¿¶È
+    sampler2D diffuse;  // æ¼«åå°„é¢œè‰²åˆ†é‡ä»Žçº¹ç†é‡‡æ ·
+    sampler2D specular;//  é•œé¢å…‰ç…§é¢œè‰²åˆ†é‡ä»Žçº¹ç†é‡‡æ ·
     float shininess;
 }; 
-// ¾Û¹âµÆ
+// èšå…‰ç¯
 struct Light {
-    vec3  position;
-    vec3  direction;
-    float cutOff;
-    float outerCutOff;
+    vec3  position; // éœ€è¦ä½ç½®
+    vec3  direction;// éœ€è¦ç…§å°„æ–¹å‘
+    float cutOff;// Ï•ï¼ˆå†…å…‰åˆ‡ï¼‰
+    float outerCutOff;// Î³ï¼ˆå¤–å…‰åˆ‡ï¼‰
 
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
-    float constant;
-    float linear;
-    float quadratic;
+    float constant; // å¸¸æ•°
+    float linear;   // ä¸€æ¬¡é¡¹
+    float quadratic;// äºŒæ¬¡é¡¹
 };
-
 in vec3 FragPos;
 in vec3 Normal;
-in vec2 TexCoords;// ÎÆÀí×ø±ê
+in vec2 TexCoords;// çº¹ç†åæ ‡
 
 uniform vec3 viewPos;
 uniform Material material;
 uniform Light light;
 void main()
 {
-    // ¹âÔ´µÄ·½ÏòÏòÁ¿£¬ÏñËØµãÖ¸Ïò¹âÔ´£¬¶ø²»ÊÇ¹âÔ´Ö¸ÏòÏñËØµã
+    // å…‰æºçš„æ–¹å‘å‘é‡ï¼šåƒç´ ç‚¹æŒ‡å‘å…‰æº
     vec3 lightDir = normalize(light.position - FragPos);
-    // Ëã³ötheta£¬dot£¨ÏñËØµãÖ¸Ïò¹âÔ´µÄÏòÁ¿ Óë ¹âÔ´µÄ·½ÏòÏòÁ¿£¨ÒÀ¾ÉÊÇÏñËØµãÖ¸Ïò¹âÔ´£¬Ö»²»¹ýÊÇÕÕÉä·½ÏòÉÏµÄÏñËØµã£©£©
-    float theta = dot(lightDir, normalize(-light.direction)); // = dot(-lightDir, normalize(light.direction));// ×¢ÊÍµÄÊÇ dot(¹âÔ´Ö¸ÏòÏñËØµã Óë ¹âÔ´ÕýÇ°·½ÕÕÉä·½ÏòÖ¸ÏòÏñËØµã)
-    // Ö´ÐÐÕý³£¹âÕÕ¼ÆËã£ºÓÉÓÚthetaÊÇcosÖµ£¬cutoofÒ²ÊÇcosÖµ£¬cos(0-90)µÝ¼õ£¬ËùÒÔtheta>£¬¶ø²»ÊÇ<
+    // ç®—å‡ºthetaï¼Œdot(åƒç´ ç‚¹æŒ‡å‘å…‰æºï¼Œå…‰æºç…§å°„çš„æ–¹å‘å–åï¼‰
+    float theta = dot(lightDir, normalize(-light.direction));
+    // float theta=dot(-lightDir, normalize(light.direction));// dot(å…‰æºæŒ‡å‘åƒç´ ç‚¹, å…‰æºç…§å°„çš„æ–¹å‘)
 
-    // ÎªÁË±ßÔµÆ½»¬
-    float epsilon = light.cutOff - light.outerCutOff;
-    float intensity = clamp((theta - light.outerCutOff) / epsilon, 0.0, 1.0);
+    
 
-    // »·¾³¹âÒ²ÊÇ²ÉÑùÂþ·´ÉäÌùÍ¼ÑÕÉ«×÷Îª·´ÉäÇ¿¶È
+    // ä»Žæ¼«åå°„çº¹ç†è¯»å–é¢œè‰²åˆ†é‡
     vec3 ambient = light.ambient * vec3(texture(material.diffuse, TexCoords)); 
 
-    // Âþ·´Éä
+    // æ¼«åå°„å…‰ç…§åˆ†é‡
     vec3 norm = normalize(Normal);
-    // vec3 lightDir = normalize(light.position - FragPos); // µÃµ½¹âÔ´µÄ·½Ïò
+    // vec3 lightDir = normalize(light.position - FragPos); // å¾—åˆ°å…‰æºçš„æ–¹å‘
     float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = light.diffuse * diff * texture(material.diffuse, TexCoords).rgb;// ²»ÔÙÊÇ´ÓÉèÖÃµÄvec3Ç¿¶È
+    vec3 diffuse = light.diffuse * diff * texture(material.diffuse, TexCoords).rgb;// ä»Žæ¼«åå°„çº¹ç†è¯»å–é¢œè‰²åˆ†é‡
 
-    // ¾µÃæ¹âÕÕ
-    vec3 viewDir = normalize(viewPos - FragPos); // ÊÇ¹Û²ìÕß·½Ïò£¬²»ÊÇ¹Û²ìÕß¿´ÏòµÄ·½Ïò
-    vec3 reflectDir = reflect(-lightDir, norm);// reflectÒªÇóµÚÒ»¸ö²ÎÊýÊÇ¹âÔ´Ö¸ÏòÏñËØµãµÄÏòÁ¿
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-    // ²ÉÑù¾µÃæ¹â²ÄÖÊÑÕÉ«×÷Îª·´ÉäÇ¿¶È
-    //vec3 specular = light.specular * spec * vec3(texture(material.specular, TexCoords)); 
+     // é•œé¢å…‰ç…§åˆ†é‡
+    vec3 viewDir = normalize(viewPos - FragPos);            // æ˜¯è§‚å¯Ÿè€…æ–¹å‘ï¼Œä¸æ˜¯è§‚å¯Ÿè€…çœ‹å‘çš„æ–¹å‘
+    vec3 reflectDir = reflect(-lightDir, norm);             // reflectè¦æ±‚ç¬¬ä¸€ä¸ªå‚æ•°æ˜¯å…‰æºæŒ‡å‘åƒç´ ç‚¹çš„å‘é‡
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);// å…‰æºå¯¹å½“å‰ç‰‡æ®µçš„é•œé¢å…‰å½±å“
+    // é‡‡æ ·é•œé¢å…‰çº¹ç†é¢œè‰²ä½œä¸ºé•œé¢å…‰ç…§é¢œè‰²åˆ†é‡
+    //vec3 specular = light.specular * spec * vec3(texture(material.specular, TexCoords)); // è¿™å¥ä¹Ÿè¡Œ
     vec3 specular = light.specular * spec * texture(material.specular, TexCoords).rgb; 
 
-    // µÃµ½³¤¶È
-    float distance  = length(light.position - FragPos);
-    float attenuation = 1.0 / (light.constant + light.linear * distance 
+    // è®¡ç®—è¡°å‡
+    float distance  = length(light.position - FragPos);                 // å¾—åˆ°å…‰æºåˆ°ç‰‡æ®µé•¿åº¦
+    float attenuation = 1.0 / (light.constant + light.linear * distance // æ ¹æ®å…¬å¼
                         + light.quadratic * distance * distance);
     
-    // ·´ÉäµÄ¹âÕÕËæ¾àÀëË¥¼õ
+    // å…‰ç…§åˆ†é‡éšè·ç¦»è¡°å‡
     ambient *= attenuation;
     diffuse *= attenuation;
     specular *= attenuation;
 
-    // ½«²»¶Ô»·¾³¹â×ö³öÓ°Ïì£¬ÈÃËü×ÜÊÇÄÜÓÐÒ»µã¹â
+    // ä¸ºäº†è¾¹ç¼˜å¹³æ»‘ä¸”åœ†é”¥å†…æ­£å¸¸
+    float epsilon = light.cutOff - light.outerCutOff;
+    float intensity = clamp((theta - light.outerCutOff) / epsilon, 0.0, 1.0);
+
+    // å°†ä¸å¯¹çŽ¯å¢ƒå…‰åšå‡ºå½±å“ï¼Œè®©å®ƒæ€»æ˜¯èƒ½æœ‰ä¸€ç‚¹å…‰
     diffuse *= intensity;
-    specular *= intensity;// ÊÜ¾Û¹âµÆÓ°Ïì
+    specular *= intensity;// èšå…‰ç¯å—å½±å“
 
     vec3 result = (ambient + diffuse + specular) ;
     

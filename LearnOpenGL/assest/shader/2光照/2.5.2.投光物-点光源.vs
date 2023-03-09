@@ -14,7 +14,7 @@ void main()
 {
     gl_Position = projection * view * model * vec4(aPos, 1.0);
     FragPos = vec3(model * vec4(aPos, 1.0));
-    // Normal = aNormal;// 只有顶点不发生缩放旋转才可以保持不变
+    // Normal = aNormal;// 只有顶点只发生位移时才可以保持不变
     Normal = mat3(transpose(inverse(model))) * aNormal;
     TexCoords = aTexCoords;
 }

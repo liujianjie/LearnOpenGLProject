@@ -7,7 +7,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 //#include <learnopengl/shader_s.h>
-#include "Shader/Shader.h"
+#include "Core/Shader/Shader.h"
 
 #include <iostream>
 #include "MyFileSystem.h"
@@ -59,7 +59,7 @@ int main()
     // build and compile our shader zprogram
     // ------------------------------------
     //Shader ourShader("7.1.camera.vs", "7.1.camera.fs");
-    Shader ourShader("assest/shader/1.9.camera.vs", "assest/shader/1.9.camera.fs");
+    Shader ourShader("assest/shader/1入门/1.9.camera.vs", "assest/shader/1入门/1.9.camera.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------

@@ -177,7 +177,7 @@ int main()
     //lightingShader.setVec3("material.ambient", 1.0f, 0.5f, 0.31f); 
     //lightingShader.setVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
     //lightingShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
-    lightingShader.setFloat("material.shininess", 32.0f);
+    lightingShader.setFloat("material.shininess", 100.0f);
 
     lightingShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
     lightingShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f); // 将光照调暗了一些以搭配场景

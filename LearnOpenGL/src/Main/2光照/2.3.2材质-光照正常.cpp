@@ -202,7 +202,7 @@ int main()
         glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);// 降低影响
         glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);// 很低的影响
 
-        lightingShader.setVec3("light.ambient", diffuseColor);
+        lightingShader.setVec3("light.ambient", ambientColor);
         lightingShader.setVec3("light.diffuse", diffuseColor); // 将光照调暗了一些以搭配场景
         lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
 

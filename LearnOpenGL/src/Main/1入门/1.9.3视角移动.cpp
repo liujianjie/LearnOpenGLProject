@@ -5,6 +5,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+//#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/quaternion.hpp>
 
 //#include <learnopengl/shader_s.h>
 #include "Core/Shader/Shader.h"
@@ -82,7 +84,7 @@ int main()
     // build and compile our shader zprogram
     // ------------------------------------
     //Shader ourShader("7.1.camera.vs", "7.1.camera.fs");
-    Shader ourShader("assest/shader/1.9.camera.vs", "assest/shader/1.9.camera.fs");
+    Shader ourShader("assest/shader/1入门/1.9.camera.vs", "assest/shader/1入门/1.9.camera.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -254,6 +256,11 @@ int main()
         // camera/view transformation
         glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
         ourShader.setMat4("view", view);
+        // 四元数计算视图矩阵
+        //glm::quat orientation = glm::quat(glm::vec3(pitch * 0.1, yaw * 0.1, 0.0f));
+        //glm::mat4 m_ViewMatrix = glm::translate(glm::mat4(1.0f), cameraPos) * glm::toMat4(orientation); // 视图矩阵 = 位置矩阵 * 旋转矩阵
+        //m_ViewMatrix = glm::inverse(m_ViewMatrix);// 取逆才是物体的视图矩阵
+        //ourShader.setMat4("view", m_ViewMatrix);
 
         // render boxes
         glBindVertexArray(VAO);
